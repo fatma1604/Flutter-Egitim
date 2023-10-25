@@ -8,7 +8,6 @@ int faktoriyelHesapla(int N) {
   if (N == 0) {
     return 1;
   }
-  //fk
 
   int faktoriyel = 1;
   for (int i = 1; i <= N; i++) {
