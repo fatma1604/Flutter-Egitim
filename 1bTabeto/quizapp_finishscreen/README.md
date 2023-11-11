@@ -1,4 +1,4 @@
-# quizapp_finishscreen
+# introapp
 
 A new Flutter project.
 

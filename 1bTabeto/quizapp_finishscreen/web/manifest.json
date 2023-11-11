@@ -1,6 +1,6 @@
 {
-    "name": "quizapp_finishscreen",
-    "short_name": "quizapp_finishscreen",
+    "name": "introapp",
+    "short_name": "introapp",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
