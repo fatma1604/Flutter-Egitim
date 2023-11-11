@@ -52,7 +52,8 @@ class _SwiperScreenState extends State<SwiperScreen> {
         chooseAnswer: (answer) => addAnswer(answer),
       );
     } else if (activeScreenName == "finish-screen") {
-      activeScreen = FinishScreen();
+      activeScreen =
+          FinishScreen(userAnswers: userAnswers, questions: questions);
     }
 
     return Container(
