@@ -1,0 +1,231 @@
+main
+import 'package:expaseapptakvim/pages/main_page.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+
+  runApp( MaterialApp(theme:ThemeData(useMaterial3: true),home:const MainPage()));
+}
+models
+expers
+import 'package:uuid/uuid.dart';
+
+
+const uuid = Uuid();
+
+class Expense {
+  Expense({required this.name, required this.price, required this.date})
+      : id = uuid.v4();
+  final String id;
+  final String name;
+  final double price;
+  final DateTime date;
+}
+pages
+expeses_pages
+
+
+import 'package:expaseapptakvim/models/expense.dart';
+import 'package:expaseapptakvim/widgets/expense_item.dart';
+import 'package:flutter/material.dart';
+
+//fdtful hızlıcaa kod
+
+class ExpensesPage extends StatefulWidget {
+  const ExpensesPage({Key? key}) : super(key: key);
+
+  @override
+  _ExpensesPageState createState() => _ExpensesPageState();
+}
+
+class _ExpensesPageState extends State<ExpensesPage> {
+  List<Expense> expenseList = [
+    Expense(name: "Makarna", price: 80.55, date: DateTime.now()),
+    Expense(name: "Pilav", price: 70.77, date: DateTime.now()),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Your Expenses",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurple,
+              ),
+            ),
+            SizedBox(height: 16), // Add some vertical spacing
+            Expanded(
+              child: ListView.builder(
+                itemCount: expenseList.length,
+                itemBuilder: (context, index) {
+                  return ExpenseItem(expenseList[index]);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+main_page
+import 'package:expaseapptakvim/pages/expenses_page.dart';
+import 'package:expaseapptakvim/widgets/new_expense.dart';
+import 'package:flutter/material.dart';
+
+
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Expense App"),
+        backgroundColor: Colors.deepPurpleAccent,
+        actions: [
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (ctx) {
+                  return NewExpense();
+                },
+              );
+            },
+            icon: const Icon(Icons.add),
+          )
+        ],
+      ),
+      body: const ExpensesPage(),
+      backgroundColor: Colors.grey[200], // Set the background color of the page
+    );
+  }
+}
+widgets
+import 'package:expaseapptakvim/models/expense.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+
+class ExpenseItem extends StatelessWidget {
+  const ExpenseItem(this.expenseList, {Key? key}) : super(key: key);
+
+  final Expense expenseList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3, // Add some elevation for a shadow effect
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Add margin for spacing
+
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              expenseList.name,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8), // Add some vertical spacing
+
+            Row(
+              children: [
+                Text(
+                  "₺ ${expenseList.price.toStringAsFixed(2)}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.green, // Customize the text color
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  DateFormat.yMEd().format(expenseList.date),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey, // Customize the text color
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+new_expens
+import 'package:expaseapptakvim/models/expense.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
+
+class ExpenseItem extends StatelessWidget {
+  const ExpenseItem(this.expenseList, {Key? key}) : super(key: key);
+
+  final Expense expenseList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3, // Add some elevation for a shadow effect
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Add margin for spacing
+
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              expenseList.name,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8), // Add some vertical spacing
+
+            Row(
+              children: [
+                Text(
+                  "₺ ${expenseList.price.toStringAsFixed(2)}",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.green, // Customize the text color
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  DateFormat.yMEd().format(expenseList.date),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey, // Customize the text color
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
