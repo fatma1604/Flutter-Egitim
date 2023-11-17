@@ -2,28 +2,31 @@ import 'package:expenses_ekle/models/expense.dart';
 import 'package:expenses_ekle/widgets/expense_item.dart';
 import 'package:flutter/material.dart';
 
-//fdtful hızlıcaa kod
-
 class ExpensesPage extends StatefulWidget {
-  const ExpensesPage({Key? key}) : super(key: key);
+  final List<Expense> initialExpenseList;
+
+  const ExpensesPage({Key? key, required this.initialExpenseList})
+      : super(key: key);
 
   @override
   _ExpensesPageState createState() => _ExpensesPageState();
 }
 
 class _ExpensesPageState extends State<ExpensesPage> {
-  List<Expense> expenseList = [
-    Expense(
-        name: "Makarna",
-        price: 80.55,
-        date: DateTime.now(),
-        category: Category.work),
-    Expense(
-        name: "Pilav",
-        price: 70.77,
-        date: DateTime.now(),
-        category: Category.dress),
-  ];
+  List<Expense> expenseList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    expenseList = List.from(widget.initialExpenseList);
+  }
+
+  // Update the expense list when it changes
+  void updateExpenseList(List<Expense> updatedList) {
+    setState(() {
+      expenseList = updatedList;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                 color: Colors.deepPurple,
               ),
             ),
-            SizedBox(height: 16), // Add some vertical spacing
+            SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
                 itemCount: expenseList.length,

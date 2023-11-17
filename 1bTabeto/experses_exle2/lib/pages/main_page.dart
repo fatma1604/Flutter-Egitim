@@ -1,8 +1,7 @@
-
+import 'package:expenses_ekle/models/expense.dart';
 import 'package:expenses_ekle/pages/expenses_page.dart';
 import 'package:expenses_ekle/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
-
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -12,6 +11,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  List<Expense> _expensesList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +25,13 @@ class _MainPageState extends State<MainPage> {
               showModalBottomSheet(
                 context: context,
                 builder: (ctx) {
-                  return NewExpense();
+                  return NewExpense(
+                    onExpensesUpdated: (expenses) {
+                      setState(() {
+                        _expensesList.addAll(expenses);
+                      });
+                    },
+                  );
                 },
               );
             },
@@ -32,8 +39,10 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       ),
-      body: const ExpensesPage(),
-      backgroundColor: Colors.grey[200], // Set the background color of the page
+      body: ExpensesPage(
+        initialExpenseList: _expensesList,
+      ),
+      backgroundColor: Colors.grey[200],
     );
   }
 }

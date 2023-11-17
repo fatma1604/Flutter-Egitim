@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({Key? key}) : super(key: key);
+  final Function(List<Expense>) onExpensesUpdated;
+
+  const NewExpense({Key? key, required this.onExpensesUpdated}) : super(key: key);
 
   @override
   _NewExpenseState createState() => _NewExpenseState();
@@ -13,35 +15,35 @@ class _NewExpenseState extends State<NewExpense> {
   var _expenseNameController = TextEditingController();
   var _expensePriceController = TextEditingController();
   DateTime? _selectedDate;
-  Category _selecetedCategory = Category.work;
+  Category _selectedCategory = Category.work;
 
   void _openDatePicker() async {
-    DateTime today = DateTime.now();
-    DateTime oneYearAgo = DateTime(today.year - 1, today.month, today.day);
-    /*showDatePicker(
-      //bekleömek zorunda değilim
-            context: context,
-            initialDate: today,
-            firstDate: oneYearAgo,
-            lastDate: today)
-        .then((value) {
-          //asetron işlemde nezaman cevap gelirae bu bulok çalışır
-      print(value);
-    });
-    */
-    //async function => await etmek
-    //bekleme zorunda oldum
-    DateTime? selectedDate = await showDatePicker(
-        context: context,
-        initialDate: _selectedDate == null ? today : _selectedDate!,
-        firstDate: oneYearAgo,
-        lastDate: today);
-    setState(() {
-      _selectedDate = selectedDate;
-    });
+    // ... (your existing code for opening date picker)
+  }
 
-    //senkron=> bir satır çalısmasını bitirmeden alt satıra geçmez.
-    //asejron=async olan sadece terilenir kod aşaya doğru çalışmaya devam eder
+  void _addExpense() {
+    String name = _expenseNameController.text;
+    double price = double.tryParse(_expensePriceController.text) ?? 0.0;
+    DateTime date = _selectedDate ?? DateTime.now();
+    Category category = _selectedCategory;
+
+    Expense newExpense = Expense(
+      name: name,
+      price: price,
+      date: date,
+      category: category,
+    );
+
+    // Use the callback to update the expenses list in ExpensesPage
+    widget.onExpensesUpdated([newExpense]);
+
+    // Clear the text fields
+    _expenseNameController.clear();
+    _expensePriceController.clear();
+    _selectedDate = null;
+
+    // Close the bottom sheet
+    Navigator.pop(context);
   }
 
   @override
@@ -50,70 +52,74 @@ class _NewExpenseState extends State<NewExpense> {
       width: double.infinity,
       child: Padding(
         padding: EdgeInsets.all(12.0),
-        child: Column(children: [
-          TextField(
-            controller: _expenseNameController,
-            maxLength: 50,
-            decoration: InputDecoration(labelText: "Harcama Adı"),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _expensePriceController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      labelText: "Harcama Miktarı", prefixText: "₺"),
+        child: Column(
+          children: [
+            TextField(
+              controller: _expenseNameController,
+              maxLength: 50,
+              decoration: InputDecoration(labelText: "Harcama Adı"),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _expensePriceController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: "Harcama Miktarı",
+                      prefixText: "₺",
+                    ),
+                  ),
                 ),
-              ),
-              IconButton(
+                IconButton(
                   onPressed: () => _openDatePicker(),
-                  icon: const Icon(Icons.calendar_month)),
-              //ternary operator
-              Text(_selectedDate == null
-                  ? "Tarih seçiniz "
-                  : DateFormat.yMd().format(_selectedDate!)),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Row(
-            children: [
-              DropdownButton(
-                  value: _selecetedCategory,
-                  items: Category.values.map((Category) {
+                  icon: const Icon(Icons.calendar_today),
+                ),
+                Text(
+                  _selectedDate == null
+                      ? "Tarih Seçiniz"
+                      : DateFormat.yMd().format(_selectedDate!),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                DropdownButton(
+                  value: _selectedCategory,
+                  items: Category.values.map((category) {
                     return DropdownMenuItem(
-                        value: Category, child: Text(Category.name));
+                      value: category,
+                      child: Text(category.toString().split('.').last),
+                    );
                   }).toList(),
                   onChanged: (value) {
                     setState(() {
-                      if (value != null) _selecetedCategory = value;
+                      if (value != null) _selectedCategory = value;
                     });
-                  })
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
+                  },
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text("kapat ")),
-              const SizedBox(
-                width: 12,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    print(
-                        "Kaydedilen değer: ${_expenseNameController.text} ${_expensePriceController.text}");
-                  },
-                  child: Text("Ekle")),
-            ],
-          )
-        ]),
+                  child: const Text("İptal"),
+                ),
+                SizedBox(width: 12),
+                ElevatedButton(
+                  onPressed: _addExpense,
+                  child: Text("Ekle"),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
