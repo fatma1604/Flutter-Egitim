@@ -1,33 +1,15 @@
-import 'package:expenses_ekle/models/expense.dart';
-import 'package:expenses_ekle/widgets/expense_item.dart';
+import 'package:expenses_ekle/data/data.dart';
 import 'package:flutter/material.dart';
+import 'package:expenses_ekle/widgets/expense_item.dart';
 
-class ExpensesPage extends StatefulWidget {
-  final List<Expense> initialExpenseList;
-
-  const ExpensesPage({Key? key, required this.initialExpenseList})
-      : super(key: key);
+class ExpenesPage extends StatefulWidget {
+  const ExpenesPage({Key? key}) : super(key: key);
 
   @override
-  _ExpensesPageState createState() => _ExpensesPageState();
+  _ExpenesPageState createState() => _ExpenesPageState();
 }
 
-class _ExpensesPageState extends State<ExpensesPage> {
-  List<Expense> expenseList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    expenseList = List.from(widget.initialExpenseList);
-  }
-
-  // Update the expense list when it changes
-  void updateExpenseList(List<Expense> updatedList) {
-    setState(() {
-      expenseList = updatedList;
-    });
-  }
-
+class _ExpenesPageState extends State<ExpenesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,20 +17,19 @@ class _ExpensesPageState extends State<ExpensesPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "Your Expenses",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
-              ),
-            ),
-            SizedBox(height: 16),
+            Text("GRAFİK"),
             Expanded(
               child: ListView.builder(
                 itemCount: expenseList.length,
                 itemBuilder: (context, index) {
-                  return ExpenseItem(expenseList[index]);
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          15.0), // Ayarlamak istediğiniz yuvarlaklık miktarı
+                    ),
+                    color: expenseList[index].color, // Kartın arka plan rengi
+                    child: ExpenseItem(expenseList[index]),
+                  );
                 },
               ),
             ),
