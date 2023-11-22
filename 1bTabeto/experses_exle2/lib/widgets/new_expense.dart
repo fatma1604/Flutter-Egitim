@@ -3,7 +3,6 @@ import 'package:expenses_ekle/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 class NewExpense extends StatefulWidget {
   final Function() onExpenseAdded;
   const NewExpense({Key? key, required this.onExpenseAdded}) : super(key: key);
@@ -20,19 +19,6 @@ class _NewExpenseState extends State<NewExpense> {
   Color? color;
 
   final _formKey = GlobalKey<FormState>();
-
-  // showDatePicker(
-  //         context: context,
-  //         initialDate: today,
-  //         firstDate: oneYearAgo,
-  //         lastDate: today)
-  // .then((value) {
-  //   async işlemden cevap ne zaman gelirse bu bloğu çalıştır..
-  //   print(value);
-  // });
-  // async function => await etmek
-  // nullable
-  // 14:20
 
   void _openDatePicker() async {
     DateTime today = DateTime.now(); // 16.11.2023
@@ -52,7 +38,6 @@ class _NewExpenseState extends State<NewExpense> {
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
       if (_selectedDate == null || _selectedCategory == null) {
-        
         // Tarih veya kategori seçilmediğinde bir uyarı göster
         showDialog(
           context: context,
@@ -155,15 +140,14 @@ class _NewExpenseState extends State<NewExpense> {
                       onChanged: (value) {
                         setState(() {
                           if (_selectedCategory == Category.work) {
-          color = Colors.red;
-        } else if (_selectedCategory == Category.travel) {
-          color = Color.fromARGB(255, 40, 111, 169);
-        } else if (_selectedCategory == Category.dress) {
-          color = Color.fromARGB(255, 66, 121, 231);
-        } else if (_selectedCategory == Category.food) {
-          color:
-          Color.fromARGB(255, 42, 2, 245);
-        }
+                            color = Colors.red;
+                          } else if (_selectedCategory == Category.travel) {
+                            color = Color.fromARGB(255, 40, 111, 169);
+                          } else if (_selectedCategory == Category.dress) {
+                            color = Color.fromARGB(255, 66, 121, 231);
+                          } else if (_selectedCategory == Category.food) {
+                            color = Color.fromARGB(255, 42, 2, 245);
+                          }
                         });
                       }),
                 )
