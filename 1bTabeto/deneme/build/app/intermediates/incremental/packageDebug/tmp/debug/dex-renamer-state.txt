@@ -1,0 +1,4 @@
+#Sat Nov 11 21:10:36 TRT 2023
+base.0=C\:\\1bTabeto\\Flutter-Egitim\\Flutter-Egitim\\1bTabeto\\deneme\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
