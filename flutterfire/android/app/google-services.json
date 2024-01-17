@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "327349589311",
+    "project_id": "flutetr-firabase-app",
+    "storage_bucket": "flutetr-firabase-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327349589311:android:1c1cc8708b821313666f8a",
+        "android_client_info": {
+          "package_name": "com.example.flutterfire"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWsTCFEBasTS1vaDf_C6-VaOvNwFlqpWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
